@@ -21,9 +21,9 @@
                 </div>
             </div>
         </template>
-        <div v-for="(value, key) in data" class="row">
-            <div class="col-2 text-end">{{ key }}</div>
-            <div class="col-10">{{ value }}</div>
+        <div v-for="(value, key) in columns" class="row">
+            <div class="col-2 text-end">{{ value }}:</div>
+            <div class="col-10">{{ data[value] }}</div>
         </div>
     </AuthenticatedLayout>
 </template>

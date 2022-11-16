@@ -6,6 +6,7 @@ use App\Http\Crud\Role\CreateConfig;
 use App\Http\Crud\Role\EditConfig;
 use App\Http\Crud\Role\ListConfig;
 use App\Http\Crud\Role\ShowConfig;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -56,6 +57,15 @@ class RoleController extends Controller
             'name' => $request->name,
         ]);
 
+        $role->save();
+        $this->postUpdateHook($request, $role);
+        sleep(1);
+
+        return redirect()->route('roles.index')->with('message', 'Role Updated Successfully');
+    }
+
+    public function postUpdateHook(Request $request, Role $role)
+    {
         foreach ($request->perms as $perm) {
             if ($role->hasPermissionTo($perm['name'])) {
                 if ($perm['checked'] === false) {
@@ -67,11 +77,6 @@ class RoleController extends Controller
                 }
             }
         }
-
-        $role->save();
-        sleep(1);
-
-        return redirect()->route('roles.index')->with('message', 'Role Updated Successfully');
     }
 
     public function destroy(Role $role): RedirectResponse

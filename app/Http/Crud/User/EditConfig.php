@@ -28,8 +28,12 @@ class EditConfig extends Config
         ]
     ];
 
-    public function query(?Model $model = null)
+    public function query(?Model $user = null)
     {
-        return $model;
+        $rolesObj = new RoleEditConfig($user);
+        $this->columns['rls'] = $rolesObj->getColumns('rls');
+        $user->rls = $rolesObj->getData();
+
+        return $user;
     }
 }

@@ -5,8 +5,6 @@ namespace App\Http\Crud\Role;
 use App\Http\Crud\Config;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Traits\HasPermissions;
 
 class PermissionEditConfig extends Config
 {

@@ -70,11 +70,26 @@ class UserController extends Controller
         }
 
         $user->forceFill($fill);
-
         $user->save();
+        $this->postUpdateHook($request, $user);
         sleep(1);
 
         return redirect()->route('users.index')->with('message', 'User Updated Successfully');
+    }
+
+    public function postUpdateHook(Request $request, User $user)
+    {
+        foreach ($request->rls as $roles) {
+            if ($user->hasRole($roles['name'])) {
+                if ($roles['checked'] === false) {
+                    $user->removeRole($roles['name']);
+                }
+            } else {
+                if ($roles['checked']) {
+                    $user->assignRole($roles['name']);
+                }
+            }
+        }
     }
 
     public function destroy(User $user): RedirectResponse
