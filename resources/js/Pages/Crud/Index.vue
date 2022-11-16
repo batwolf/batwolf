@@ -1,7 +1,7 @@
 <script setup>
     import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
     import { Head } from '@inertiajs/inertia-vue3';
-    import {computed, ref} from "vue";
+    import {computed, onMounted, ref} from "vue";
     import {getRoute, getSlashedRoute} from '@/Components/Routes.vue';
     const props = defineProps(['data', 'columns', 'name']);
     const items = ref([]);
@@ -14,6 +14,15 @@
     const totalRecords = ref(0);
     const showingStart = ref(0);
     const showingEnd = ref(0);
+    const totalPages = ref(1);
+    const nextButtonIsVisible = ref(false);
+    const prevButtonIsVisible = ref(false);
+    const anyButtonIsVisible = ref(false);
+
+    onMounted(() => {
+        toggleNextButton();
+        toggleAnyButton();
+    });
 
     const capitalize = (str) => {
         return str[0].toUpperCase() + str.slice(1)
@@ -26,14 +35,56 @@
         currentSort.value = s;
     };
 
+    const toggleNextButton = () => {
+        if (!nextPageIsVisible()) {
+            nextButtonIsVisible.value = false;
+        } else {
+            nextButtonIsVisible.value = true;
+        }
+    }
+
+    const togglePrevButton = () => {
+        if (!previousPageIsVisible()) {
+            prevButtonIsVisible.value = false;
+        } else {
+            prevButtonIsVisible.value = true;
+        }
+    }
+
+    const toggleAnyButton = () => {
+        if (!anyPageIsVisible()) {
+            anyButtonIsVisible.value = false;
+        } else {
+            anyButtonIsVisible.value = true;
+        }
+    }
+
     const nextPage = () => {
         if((currentPage.value * pageSize.value) < props.data.length) {
             currentPage.value++;
         }
+        toggleNextButton();
+        togglePrevButton();
+        toggleAnyButton();
     };
 
     const prevPage = () => {
         if(currentPage.value > 1) currentPage.value--;
+        toggleNextButton();
+        togglePrevButton();
+        toggleAnyButton();
+    }
+
+    const nextPageIsVisible = () => {
+        return currentPage.value !== (totalPages.value - 1);
+    }
+
+    const previousPageIsVisible = () => {
+        return currentPage.value === 1;
+    }
+
+    const anyPageIsVisible = () => {
+        return totalPages.value > 1;
     }
 
     const sortedItems = computed(() => {
@@ -51,10 +102,14 @@
             }
             return 0;
         }).filter((row, index) => {
+            totalPages.value = Math.ceil(totalRecords.value/pageSize.value);
             start.value = (currentPage.value-1) * pageSize.value;
             end.value = currentPage.value * pageSize.value;
             showingStart.value = totalRecords.value < pageSize.value ? 1 : start.value + 1;
             showingEnd.value = totalRecords.value < pageSize.value ? totalRecords.value : end.value;
+            toggleNextButton();
+            togglePrevButton();
+            toggleAnyButton();
             if(index >= start.value && index < end.value) {
                 return true;
             }
@@ -94,9 +149,13 @@
                 </tr>
             </tbody>
         </table>
-        <p>
-            <button v-if="pageSize<totalRecords" class="btn btn-secondary" @click="prevPage">Prev</button>
-            <button v-if="pageSize<totalRecords" class="btn btn-secondary" @click="nextPage">Next</button>
-        </p>
+        <div class="row" v-if="anyButtonIsVisible">
+            <div class="col-1">
+                <button :disabled="prevButtonIsVisible" class="btn btn-secondary" @click="prevPage">&lt;&lt;</button>
+            </div>
+            <div class="col-1">
+                <button :disabled="nextButtonIsVisible" class="btn btn-secondary" @click="nextPage">&gt;&gt;</button>
+            </div>
+        </div>
     </AuthenticatedLayout>
 </template>
