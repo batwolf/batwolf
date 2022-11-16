@@ -18,19 +18,45 @@ class PermissionEditConfig extends Config
             'label' => 'Name',
             'placeholder' => 'Your name',
         ],
+        'perms' => [
+            'name' => 'Permissions',
+            'type' => 'checkbox',
+            'label' => 'Permissions',
+            'placeholder' => ''
+        ]
     ];
 
-    protected function query(?Model $model = null)
+    public function query(?Model $model = null)
     {
-        $data = Permission::all(['id', 'name'])->each(function(Permission $permission) {
-            $permission->assignRole('Owner');
-            $permission->currentRoles = $permission->getRoleNames();
-        });
+        $permissions = Permission::all(['id', 'name']);
 
-        dd($data);
+        $finalPermissions = [];
+        /** @var Permission[] $permissions */
+        foreach ($permissions as $perms) {
+            $finalPermission = $this->columns['perms'];
+            $finalPermission['id'] = $perms['id'];
+            $finalPermission['name'] = $perms['name'];
+            $finalPermission['checked'] = false;
+            if ($model->hasPermissionTo($perms['name'])) {
+                $finalPermission['checked'] = true;
+            }
+            $finalPermissions[] = $finalPermission;
+        }
 
+        return $finalPermissions;
 
+    }
 
-        return Permission::all(['id', 'name']);
+    public function toArray(): array
+    {
+        $returnArray = [];
+        foreach ($this->data as $data) {
+            $returnArray[] = [
+                'id' => $data['id'],
+                'name' => $data['name']
+            ];
+        }
+
+        return $returnArray;
     }
 }

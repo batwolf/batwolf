@@ -14,7 +14,7 @@ class ShowConfig extends Config
         'email',
     ];
 
-    protected function query(?Model $model = null)
+    public function query(?Model $model = null)
     {
         return $model;
     }

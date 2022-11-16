@@ -11,18 +11,27 @@ abstract class Config implements Arrayable
     protected array $columns;
     protected string $name;
     protected string $postRoute;
-    protected ?Config $relatedConfig;
 
     public function __construct(?Model $model = null)
     {
         $this->data = $this->query($model);
-        if (method_exists($this, 'relatedConfig')) {
-            $config = $this->relatedConfig();
-            $this->relatedConfig = new $config();
-        }
     }
 
-    protected abstract function query(?Model $model = null);
+    public abstract function query(?Model $model = null);
+
+    public function getColumns(string $name = null): array
+    {
+        if (!empty($name)) {
+            return $this->columns[$name];
+        }
+
+        return $this->columns;
+    }
+
+    public function getData()
+    {
+        return $this->data;
+    }
 
     public function toArray(): array
     {
@@ -31,7 +40,6 @@ abstract class Config implements Arrayable
           'columns' => $this->columns,
           'name' => $this->name,
           'postRoute' => $this->postRoute ?? '',
-          'relatedConfig' => $this->relatedConfig ?? null,
         ];
     }
 }

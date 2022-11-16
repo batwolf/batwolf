@@ -31,7 +31,7 @@ class CreateConfig extends Config
         ]
     ];
 
-    protected function query(?Model $model = null)
+    public function query(?Model $model = null)
     {
         $user = new User();
         $user->forceFill([

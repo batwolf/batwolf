@@ -19,7 +19,7 @@ class CreateConfig extends Config
         ],
     ];
 
-    protected function query(?Model $model = null)
+    public function query(?Model $model = null)
     {
         $model = new Role();
         $model->forceFill([

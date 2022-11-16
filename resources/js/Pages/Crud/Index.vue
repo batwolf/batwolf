@@ -7,7 +7,7 @@
     const items = ref([]);
     const currentSort = ref('id');
     const currentSortDir = ref('asc');
-    const pageSize = ref(20);
+    const pageSize = ref(10);
     const currentPage = ref(1);
     const start = ref(0);
     const end = ref(0);

@@ -4,7 +4,6 @@ namespace App\Http\Crud\Role;
 
 use App\Http\Crud\Config;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Permission\Models\Role;
 
 class EditConfig extends Config
 {
@@ -18,13 +17,12 @@ class EditConfig extends Config
         ],
     ];
 
-    protected function query(?Model $model = null)
+    public function query(?Model $role = null)
     {
-        return $model;
-    }
+        $permissionsObj = new PermissionEditConfig($role);
+        $this->columns['perms'] = $permissionsObj->getColumns('perms');
+        $role->perms = $permissionsObj->getData();
 
-    protected function relatedConfig()
-    {
-        return PermissionEditConfig::class;
+        return $role;
     }
 }

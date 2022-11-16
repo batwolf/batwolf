@@ -14,7 +14,7 @@ class ListConfig extends Config
         'name',
     ];
 
-    protected function query(?Model $model = null)
+    public function query(?Model $model = null)
     {
         return Permission::all();
     }

@@ -31,11 +31,7 @@ class RoleController extends Controller
 
     public function edit(Role $role): Response
     {
-        $e = new EditConfig($role);
-
-        dd($e);
-
-        return Inertia::render('Role/Edit', new EditConfig($role));
+        return Inertia::render('Crud/Edit', new EditConfig($role));
     }
 
     public function store(Request $request)
@@ -44,7 +40,7 @@ class RoleController extends Controller
             'name' => 'required|string|max:255',
         ]);
 
-        Role::create(['name' => $request->name]);
+        Role::create(['guard_name' => 'web', 'name' => $request->name]);
         sleep(1);
 
         return redirect()->route('roles.index')->with('message', 'Role Created Successfully');
@@ -60,12 +56,20 @@ class RoleController extends Controller
             'name' => $request->name,
         ]);
 
+        foreach ($request->perms as $perm) {
+            if ($role->hasPermissionTo($perm['name'])) {
+                if ($perm['checked'] === false) {
+                    $role->revokePermissionTo($perm['name']);
+                }
+            } else {
+                if ($perm['checked']) {
+                    $role->givePermissionTo($perm['name']);
+                }
+            }
+        }
+
         $role->save();
         sleep(1);
-
-        $permissions = $request->permissions;
-        dd($permissions);
-
 
         return redirect()->route('roles.index')->with('message', 'Role Updated Successfully');
     }

@@ -16,7 +16,7 @@ class ListConfig extends Config
         'registered'
     ];
 
-    protected function query(?Model $model = null)
+    public function query(?Model $model = null)
     {
         return User::all()->each(function($user) {
             $user['registered'] = $user['created_at']->format('Y-m-d H:i:s');
