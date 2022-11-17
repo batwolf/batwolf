@@ -25,9 +25,10 @@ class EditConfig extends Config
             'required' => 'required',
             'label' => 'Email Address',
             'placeholder' => 'name@example.com',
-        ]
+        ],
     ];
 
+    /** User $user */
     public function query(?Model $user = null)
     {
         $rolesObj = new RoleEditConfig($user);

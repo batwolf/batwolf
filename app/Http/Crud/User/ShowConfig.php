@@ -27,7 +27,6 @@ class ShowConfig extends Config
         foreach ($roles as $role) {
             $allRoles[] = $role;
         }
-
         $model->assignedRoles = implode(', ', $allRoles);
 
         return $model;
