@@ -39,11 +39,9 @@ class RoleController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'guard_name' => 'required|string|max:255',
         ]);
 
         Role::create([
-            'guard_name' => $request->guard_name,
             'name' => $request->name
         ]);
         sleep(1);
@@ -55,12 +53,10 @@ class RoleController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'guard_name' => $request->guard_name,
         ]);
 
         $role->forceFill([
             'name' => $request->name,
-            'guard_name' => $request->guard_name
         ]);
 
         $role->save();
