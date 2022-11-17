@@ -6,61 +6,42 @@ use App\Http\Crud\User\CreateConfig;
 use App\Http\Crud\User\EditConfig;
 use App\Http\Crud\User\ListConfig;
 use App\Http\Crud\User\ShowConfig;
-use App\Http\Repository\UserRepository;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 
 class UserController extends CrudController
 {
-
-
     public function create()
     {
-        if($this->authorized('user-create')) {
-            return redirect()->route('unauthorized');
-        }
-
+        $this->authorized('user-create');
         return Inertia::render('Crud/Create', new CreateConfig());
     }
 
     public function index()
     {
-        if($this->authorized('user-read')) {
-            return redirect()->route('unauthorized');
-        }
-
+        $this->authorized('user-read');
         return Inertia::render('Crud/Index', new ListConfig());
     }
 
     public function show(User $user)
     {
-        if($this->authorized('user-read')) {
-            return redirect()->route('unauthorized');
-        }
-
+        $this->authorized('user-read');
         return Inertia::render('Crud/Show', new ShowConfig($user));
     }
 
     public function edit(User $user)
     {
-        if($this->authorized('user-update')) {
-            return redirect()->route('unauthorized');
-        }
-
+        $this->authorized('user-update');
         $user->pass = '';
         return Inertia::render('Crud/Edit', new EditConfig($user));
     }
 
     public function store(Request $request)
     {
-        if($this->authorized('user-create')) {
-            return redirect()->route('unauthorized');
-        }
-
+        $this->authorized('user-create');
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
@@ -75,9 +56,7 @@ class UserController extends CrudController
 
     public function update(Request $request, User $user): RedirectResponse
     {
-        if($this->authorized('user-update')) {
-            return redirect()->route('unauthorized');
-        }
+        $this->authorized('user-update');
 
         $request->validate([
             'name' => 'required|string|max:255',
@@ -103,6 +82,8 @@ class UserController extends CrudController
 
     public function postUpdateHook(Request $request, User $user)
     {
+        $this->authorized('user-update');
+
         foreach ($request->rls as $roles) {
             if ($user->hasRole($roles['name'])) {
                 if ($roles['checked'] === false) {
@@ -118,10 +99,7 @@ class UserController extends CrudController
 
     public function destroy(User $user): RedirectResponse
     {
-        if($this->authorized('user-delete')) {
-            return redirect()->route('unauthorized');
-        }
-
+        $this->authorized('user-delete');
         $user->delete();
         sleep(1);
 

@@ -40,7 +40,6 @@ class RoleController extends CrudController
     public function store(Request $request)
     {
         $this->authorized('role-create');
-
         $request->validate([
             'name' => 'required|string|max:255',
         ]);
@@ -56,7 +55,6 @@ class RoleController extends CrudController
     public function update(Request $request, Role $role): RedirectResponse
     {
         $this->authorized('role-update');
-
         $request->validate([
             'name' => 'required|string|max:255',
         ]);
@@ -75,7 +73,6 @@ class RoleController extends CrudController
     public function postUpdateHook(Request $request, Role $role)
     {
         $this->authorized('role-update');
-
         foreach ($request->perms as $perm) {
             if ($role->hasPermissionTo($perm['name'])) {
                 if ($perm['checked'] === false) {
@@ -92,7 +89,6 @@ class RoleController extends CrudController
     public function destroy(Role $role): RedirectResponse
     {
         $this->authorized('role-delete');
-
         $role->delete();
         sleep(1);
 

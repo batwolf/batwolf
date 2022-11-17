@@ -16,7 +16,7 @@ class CrudController extends Controller
 
     protected function authorized(string $name)
     {
-        if (!Auth::user()->can($name)) {
+        if (Auth::user()->can($name) === false) {
             return redirect()->route('unauthorized');
         }
     }

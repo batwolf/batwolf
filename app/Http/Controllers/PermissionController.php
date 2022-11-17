@@ -40,7 +40,6 @@ class PermissionController extends CrudController
     public function store(Request $request)
     {
         $this->authorized('permission-create');
-
         $request->validate([
             'name' => 'required|string|max:255',
         ]);
@@ -54,7 +53,6 @@ class PermissionController extends CrudController
     public function update(Request $request, Permission $permission): RedirectResponse
     {
         $this->authorized('permission-update');
-
         $request->validate([
             'name' => 'required|string|max:255',
         ]);
@@ -72,7 +70,6 @@ class PermissionController extends CrudController
     public function destroy(Permission $permission): RedirectResponse
     {
         $this->authorized('permission-delete');
-
         $permission->delete();
         sleep(1);
 
