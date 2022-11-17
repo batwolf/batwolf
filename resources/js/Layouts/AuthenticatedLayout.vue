@@ -19,7 +19,7 @@ import SidebarLink from '@/Components/SidebarLink.vue';
             <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
                 <div class="position-sticky pt-3 sidebar-sticky">
                     <ul class="nav flex-column">
-                        <SidebarLink :href="route('dashboard')" :active="route().current('dashboard')">
+                        <SidebarLink :href="route('dashboard.index')" :active="route().current('dashboard')">
                             <vue-feather type="pie-chart" /> Dashboard
                         </SidebarLink>
                     </ul>
@@ -176,6 +176,39 @@ th.sort {
     padding-left: 16px;
     padding-top: 5px;
     width: 90%;
+}
+
+.icons {
+    display: grid;
+    grid-gap: 0.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.icons > li {
+    background-color: #f8f8f8;
+    padding: 0.5rem 1rem;
+    transition: color 0.15s;
+}
+
+.icons > li:hover {
+    color: #0074d9;
+}
+
+.icons > li > i {
+    vertical-align: middle;
+}
+
+.icons > li > span {
+    color: gray;
+    margin-left: 0.5rem;
+    transition: color 0.15s;
+}
+
+.icons > li:hover > span {
+    color: inherit;
 }
 
 </style>

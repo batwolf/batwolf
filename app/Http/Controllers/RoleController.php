@@ -6,37 +6,41 @@ use App\Http\Crud\Role\CreateConfig;
 use App\Http\Crud\Role\EditConfig;
 use App\Http\Crud\Role\ListConfig;
 use App\Http\Crud\Role\ShowConfig;
-use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Inertia\Response;
 use Spatie\Permission\Models\Role;
 
-class RoleController extends Controller
+class RoleController extends CrudController
 {
-    public function create(): Response
+    public function create()
     {
+        $this->authorized('role-create');
         return Inertia::render('Crud/Create', new CreateConfig());
     }
 
-    public function index(): Response
+    public function index()
     {
+        $this->authorized('role-read');
         return Inertia::render('Crud/Index', new ListConfig());
     }
 
-    public function show(Role $role): Response
+    public function show(Role $role)
     {
+        $this->authorized('role-read');
         return Inertia::render('Crud/Show', new ShowConfig($role));
     }
 
-    public function edit(Role $role): Response
+    public function edit(Role $role)
     {
+        $this->authorized('role-update');
         return Inertia::render('Crud/Edit', new EditConfig($role));
     }
 
     public function store(Request $request)
     {
+        $this->authorized('role-create');
+
         $request->validate([
             'name' => 'required|string|max:255',
         ]);
@@ -51,6 +55,8 @@ class RoleController extends Controller
 
     public function update(Request $request, Role $role): RedirectResponse
     {
+        $this->authorized('role-update');
+
         $request->validate([
             'name' => 'required|string|max:255',
         ]);
@@ -68,6 +74,8 @@ class RoleController extends Controller
 
     public function postUpdateHook(Request $request, Role $role)
     {
+        $this->authorized('role-update');
+
         foreach ($request->perms as $perm) {
             if ($role->hasPermissionTo($perm['name'])) {
                 if ($perm['checked'] === false) {
@@ -83,6 +91,8 @@ class RoleController extends Controller
 
     public function destroy(Role $role): RedirectResponse
     {
+        $this->authorized('role-delete');
+
         $role->delete();
         sleep(1);
 

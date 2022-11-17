@@ -6,48 +6,68 @@ use App\Http\Crud\User\CreateConfig;
 use App\Http\Crud\User\EditConfig;
 use App\Http\Crud\User\ListConfig;
 use App\Http\Crud\User\ShowConfig;
+use App\Http\Repository\UserRepository;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
-use Inertia\Response;
 
-class UserController extends Controller
+class UserController extends CrudController
 {
-    public function create(): Response
+
+
+    public function create()
     {
+        if($this->authorized('user-create')) {
+            return redirect()->route('unauthorized');
+        }
+
         return Inertia::render('Crud/Create', new CreateConfig());
     }
 
-    public function index(): Response
+    public function index()
     {
+        if($this->authorized('user-read')) {
+            return redirect()->route('unauthorized');
+        }
+
         return Inertia::render('Crud/Index', new ListConfig());
     }
 
-    public function show(User $user): Response
+    public function show(User $user)
     {
+        if($this->authorized('user-read')) {
+            return redirect()->route('unauthorized');
+        }
+
         return Inertia::render('Crud/Show', new ShowConfig($user));
     }
 
-    public function edit(User $user): Response
+    public function edit(User $user)
     {
+        if($this->authorized('user-update')) {
+            return redirect()->route('unauthorized');
+        }
+
         $user->pass = '';
         return Inertia::render('Crud/Edit', new EditConfig($user));
     }
 
     public function store(Request $request)
     {
+        if($this->authorized('user-create')) {
+            return redirect()->route('unauthorized');
+        }
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'pass' => 'required|min:6|max:255',
         ]);
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->pass),
-        ]);
+
+        $this->userRepository->createUser($request->name, $request->email, $request->pass);
         sleep(1);
 
         return redirect()->route('users.index')->with('message', 'User Created Successfully');
@@ -55,6 +75,10 @@ class UserController extends Controller
 
     public function update(Request $request, User $user): RedirectResponse
     {
+        if($this->authorized('user-update')) {
+            return redirect()->route('unauthorized');
+        }
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
@@ -94,6 +118,10 @@ class UserController extends Controller
 
     public function destroy(User $user): RedirectResponse
     {
+        if($this->authorized('user-delete')) {
+            return redirect()->route('unauthorized');
+        }
+
         $user->delete();
         sleep(1);
 

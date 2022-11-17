@@ -6,37 +6,41 @@ use App\Http\Crud\Permission\CreateConfig;
 use App\Http\Crud\Permission\EditConfig;
 use App\Http\Crud\Permission\ListConfig;
 use App\Http\Crud\Permission\ShowConfig;
-use App\Http\Crud\Role\PermissionEditConfig;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Inertia\Response;
 use Spatie\Permission\Models\Permission;
 
-class PermissionController extends Controller
+class PermissionController extends CrudController
 {
-    public function create(): Response
+    public function create()
     {
+        $this->authorized('permission-create');
         return Inertia::render('Crud/Create', new CreateConfig());
     }
 
-    public function index(): Response
+    public function index()
     {
+        $this->authorized('permission-read');
         return Inertia::render('Crud/Index', new ListConfig());
     }
 
-    public function show(Permission $permission): Response
+    public function show(Permission $permission)
     {
+        $this->authorized('permission-read');
         return Inertia::render('Crud/Show', new ShowConfig($permission));
     }
 
-    public function edit(Permission $permission): Response
+    public function edit(Permission $permission)
     {
+        $this->authorized('permission-update');
         return Inertia::render('Crud/Edit', new EditConfig($permission));
     }
 
     public function store(Request $request)
     {
+        $this->authorized('permission-create');
+
         $request->validate([
             'name' => 'required|string|max:255',
         ]);
@@ -49,6 +53,8 @@ class PermissionController extends Controller
 
     public function update(Request $request, Permission $permission): RedirectResponse
     {
+        $this->authorized('permission-update');
+
         $request->validate([
             'name' => 'required|string|max:255',
         ]);
@@ -65,6 +71,8 @@ class PermissionController extends Controller
 
     public function destroy(Permission $permission): RedirectResponse
     {
+        $this->authorized('permission-delete');
+
         $permission->delete();
         sleep(1);
 

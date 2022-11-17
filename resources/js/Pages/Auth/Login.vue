@@ -52,6 +52,9 @@ const submit = () => {
             <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                 Login
             </PrimaryButton>
+            <Link :href="route('register')" class="text-sm text-gray-600 hover:text-gray-900">
+                No Account?
+            </Link>
         </form>
     </GuestLayout>
 </template>
@@ -74,7 +77,7 @@ body {
     max-width: 400px;
     padding: 40px;
     position: relative;
-    top: 25vh;
+    top: 15vh;
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
     border-radius: 12px;
 }
@@ -91,7 +94,8 @@ body {
 
 .form-signin input[type="password"] {
     margin-bottom: 10px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
+    border-bottom-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+
 }
 </style>
