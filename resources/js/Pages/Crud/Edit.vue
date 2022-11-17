@@ -13,7 +13,7 @@ const submit = () => {
     form.patch(route(props.postRoute, props.data));
 };
 const isTextInput = (obj) => {
-    return obj === 'text';
+    return obj === 'text' || obj === 'email' || obj === 'password';
 }
 const isCheckboxInput = (obj) => {
     return obj === 'checkbox';
@@ -55,10 +55,10 @@ const isChecked = (str) => {
                                     </div>
                                     <div class="row" v-if="isCheckboxInput(columns[key]['type'])">
                                         <p>{{ columns[key]['name'] }}</p>
-                                        <div class="mb-3 col-4" v-for="column in data[key]">
+                                        <div class="mb-3 col-3" v-for="column in data[key]">
                                             <div class="form-check" >
                                                 <input v-model="column['checked']" :value="column.id" :checked="isChecked(column['checked'])" class="form-check-input" name="permissions[]" type="checkbox" :id="column.id">
-                                                <label class="form-check-label" for="flexCheckDefault">
+                                                <label class="form-check-label" :for="column.id">
                                                     {{ column.name }}
                                                 </label>
                                             </div>
