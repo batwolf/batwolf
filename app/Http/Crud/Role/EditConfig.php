@@ -15,6 +15,11 @@ class EditConfig extends Config
             'label' => 'Name',
             'placeholder' => 'Your name',
         ],
+        'guard_name' => [
+            'type' => 'text',
+            'label' => 'Guard',
+            'placeholder' => 'Guard name',
+        ],
     ];
 
     public function query(?Model $role = null)

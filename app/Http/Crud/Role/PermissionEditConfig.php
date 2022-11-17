@@ -24,7 +24,7 @@ class PermissionEditConfig extends Config
         ]
     ];
 
-    public function query(?Model $model = null)
+    public function query(?Model $role = null)
     {
         $permissions = Permission::all(['id', 'name']);
 
@@ -35,7 +35,7 @@ class PermissionEditConfig extends Config
             $finalPermission['id'] = $perms['id'];
             $finalPermission['name'] = $perms['name'];
             $finalPermission['checked'] = false;
-            if ($model->hasPermissionTo($perms['name'])) {
+            if ($role->hasPermissionTo($perms['name'])) {
                 $finalPermission['checked'] = true;
             }
             $finalPermissions[] = $finalPermission;

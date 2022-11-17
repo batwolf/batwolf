@@ -3,6 +3,7 @@
 namespace App\Http\Crud\User;
 
 use App\Http\Crud\Config;
+use App\Http\Crud\Role\CreateConfig as RoleCreateConfig;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,7 +29,7 @@ class CreateConfig extends Config
             'required' => 'required',
             'label' => 'Email Address',
             'placeholder' => 'name@example.com',
-        ]
+        ],
     ];
 
     public function query(?Model $model = null)

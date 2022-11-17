@@ -17,6 +17,11 @@ class CreateConfig extends Config
             'placeholder' => 'Name',
             'required' => 'required',
         ],
+        'guard_name' => [
+            'type' => 'text',
+            'label' => 'Guard',
+            'placeholder' => 'Guard name',
+        ],
     ];
 
     public function query(?Model $model = null)
@@ -24,6 +29,7 @@ class CreateConfig extends Config
         $model = new Role();
         $model->forceFill([
             'name' => '',
+            'guard_name' => ''
         ]);
 
         return $model;

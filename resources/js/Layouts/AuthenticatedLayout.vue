@@ -18,16 +18,23 @@ import SidebarLink from '@/Components/SidebarLink.vue';
         <div class="row">
             <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
                 <div class="position-sticky pt-3 sidebar-sticky">
-                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
-                        <span>Components</span>
-                    </h6>
                     <ul class="nav flex-column">
                         <SidebarLink :href="route('dashboard')" :active="route().current('dashboard')">
                             <vue-feather type="pie-chart" /> Dashboard
                         </SidebarLink>
+                    </ul>
+                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
+                        <span>Components</span>
+                    </h6>
+                    <ul class="nav flex-column">
                         <SidebarLink :href="route('users.index')" :active="route().current('users.*')">
                             <vue-feather type="users" /> Users
                         </SidebarLink>
+                    </ul>
+                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
+                        <span>Authentication</span>
+                    </h6>
+                    <ul class="nav flex-column">
                         <SidebarLink :href="route('roles.index')" :active="route().current('roles.*')">
                             <vue-feather type="user-check" /> Roles
                         </SidebarLink>
@@ -35,10 +42,14 @@ import SidebarLink from '@/Components/SidebarLink.vue';
                             <vue-feather type="minus-circle" /> Permissions
                         </SidebarLink>
                     </ul>
+
                     <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
                         <span>{{ $page.props.auth.user.name }}</span>
                     </h6>
                     <ul class="nav flex-column">
+                        <SidebarLink :href="route('logout')" :active="route().current('logout')">
+                            <vue-feather type="star" /> Profile
+                        </SidebarLink>
                         <SidebarLink :href="route('logout')" :active="route().current('logout')">
                             <vue-feather type="log-out" /> Logout
                         </SidebarLink>
@@ -63,7 +74,7 @@ import SidebarLink from '@/Components/SidebarLink.vue';
     bottom: 0;
     left: 0;
     z-index: 1000;
-    padding: 48px 0 0; /* Height of navbar */
+    padding: 32px 0 0; /* Height of navbar */
     box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
 }
 
@@ -74,9 +85,9 @@ import SidebarLink from '@/Components/SidebarLink.vue';
 }
 
 .sidebar-sticky {
-    height: calc(100vh - 48px);
+    height: calc(100vh - 32px);
     overflow-x: hidden;
-    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    overflow-y: auto;
 }
 
 .nav-link {
@@ -150,6 +161,21 @@ import SidebarLink from '@/Components/SidebarLink.vue';
 
 th.sort {
     cursor: pointer;
+}
+
+.sidebar-top {
+    width: 100%;
+    height: 40px;
+    border-bottom: 1px solid #cccccc;
+}
+
+.sidebar-top h1 {
+    text-transform: uppercase;
+    font-size: 24px;
+    text-align: left;
+    padding-left: 16px;
+    padding-top: 5px;
+    width: 90%;
 }
 
 </style>
