@@ -63,38 +63,16 @@ class UserController extends CrudController
             'email' => 'required|email|max:255',
         ]);
 
-        $fill = [
-            'name' => $request->name,
-            'email' => $request->email,
-        ];
-
-        if (!empty($request->pass)) {
-            $fill['password'] = Hash::make($request->pass);
-        }
-
-        $user->forceFill($fill);
-        $user->save();
-        $this->postUpdateHook($request, $user);
+        $this->userRepository->updateUser(
+            $user,
+            $request->name,
+            $request->email,
+            $request->pass,
+            $request->rls
+        );
         sleep(1);
 
         return redirect()->route('users.index')->with('message', 'User Updated Successfully');
-    }
-
-    public function postUpdateHook(Request $request, User $user)
-    {
-        $this->authorized('user-update');
-
-        foreach ($request->rls as $roles) {
-            if ($user->hasRole($roles['name'])) {
-                if ($roles['checked'] === false) {
-                    $user->removeRole($roles['name']);
-                }
-            } else {
-                if ($roles['checked']) {
-                    $user->assignRole($roles['name']);
-                }
-            }
-        }
     }
 
     public function destroy(User $user): RedirectResponse

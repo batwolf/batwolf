@@ -20,4 +20,31 @@ class UserRepository
             'password' => Hash::make($rawPassword),
         ]);
     }
+
+    public function updateUser($user, $name, $email, $password, $rls): void
+    {
+        $fill = [
+            'name' => $name,
+            'email' => $email,
+        ];
+
+        if (!empty($password)) {
+            $fill['password'] = Hash::make($password);
+        }
+
+        $user->forceFill($fill);
+        $user->save();
+
+        foreach ($rls as $roles) {
+            if ($user->hasRole($roles['name'])) {
+                if ($roles['checked'] === false) {
+                    $user->removeRole($roles['name']);
+                }
+            } else {
+                if ($roles['checked']) {
+                    $user->assignRole($roles['name']);
+                }
+            }
+        }
+    }
 }
