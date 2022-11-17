@@ -9,37 +9,36 @@ use App\Http\Crud\User\ShowConfig;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 
 class UserController extends CrudController
 {
-    public function create()
+    public function create(): \Inertia\Response
     {
         $this->authorized('user-create');
         return Inertia::render('Crud/Create', new CreateConfig());
     }
 
-    public function index()
+    public function index(): \Inertia\Response
     {
         $this->authorized('user-read');
         return Inertia::render('Crud/Index', new ListConfig());
     }
 
-    public function show(User $user)
+    public function show(User $user): \Inertia\Response
     {
         $this->authorized('user-read');
         return Inertia::render('Crud/Show', new ShowConfig($user));
     }
 
-    public function edit(User $user)
+    public function edit(User $user): \Inertia\Response
     {
         $this->authorized('user-update');
         $user->pass = '';
         return Inertia::render('Crud/Edit', new EditConfig($user));
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $this->authorized('user-create');
         $request->validate([
@@ -48,7 +47,11 @@ class UserController extends CrudController
             'pass' => 'required|min:6|max:255',
         ]);
 
-        $this->userRepository->createUser($request->name, $request->email, $request->pass);
+        $this->userRepository->createUser(
+            $request->name,
+            $request->email,
+            $request->pass
+        );
         sleep(1);
 
         return redirect()->route('users.index')->with('message', 'User Created Successfully');

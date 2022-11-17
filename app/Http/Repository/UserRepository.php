@@ -12,7 +12,11 @@ class UserRepository
         return User::all(['id'])->count();
     }
 
-    public function createUser(string $name, string $email, string $rawPassword): void
+    public function createUser(
+        string $name,
+        string $email,
+        string $rawPassword
+    ): void
     {
         User::create([
             'name' => $name,
@@ -21,7 +25,12 @@ class UserRepository
         ]);
     }
 
-    public function updateUser($user, $name, $email, $password, $rls): void
+    public function updateUser(
+        User $user,
+        string $name,
+        string $email,
+        string $password,
+        array $rls): void
     {
         $fill = [
             'name' => $name,
