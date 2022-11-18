@@ -29,9 +29,9 @@ class UserRepository
         User $user,
         string $name,
         string $email,
-        string $password,
-        array $rls): void
-    {
+        array $rls,
+        ?string $password = null
+    ): void {
         $fill = [
             'name' => $name,
             'email' => $email,

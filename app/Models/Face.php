@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Face extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'description',
+        'screenshot_image',
+        'promo_image',
+        'external_link',
+        'tags'
+    ];
 }

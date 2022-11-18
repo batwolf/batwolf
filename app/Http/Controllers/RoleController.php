@@ -8,38 +8,36 @@ use App\Http\Crud\Role\ListConfig;
 use App\Http\Crud\Role\ShowConfig;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 use Spatie\Permission\Models\Role;
 
 class RoleController extends CrudController
 {
     public function create()
     {
-        $this->authorized('role-create');
-        return Inertia::render('Crud/Create', new CreateConfig());
+        return $this->respond('Crud/Create', new CreateConfig(), 'role-create');
     }
 
     public function index()
     {
-        $this->authorized('role-read');
-        return Inertia::render('Crud/Index', new ListConfig());
+        return $this->respond('Crud/Index', new ListConfig(), 'role-read');
     }
 
     public function show(Role $role)
     {
-        $this->authorized('role-read');
-        return Inertia::render('Crud/Show', new ShowConfig($role));
+        return $this->respond('Crud/Show', new ShowConfig($role), 'role-read');
     }
 
     public function edit(Role $role)
     {
-        $this->authorized('role-update');
-        return Inertia::render('Crud/Edit', new EditConfig($role));
+        return $this->respond('Crud/Edit', new EditConfig($role), 'role-update');
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        $this->authorized('role-create');
+        if ($this->authorized('role-create') === false) {
+            return redirect()->route('unauthorized');
+        }
+
         $request->validate([
             'name' => 'required|string|max:255',
         ]);
@@ -54,7 +52,10 @@ class RoleController extends CrudController
 
     public function update(Request $request, Role $role): RedirectResponse
     {
-        $this->authorized('role-update');
+        if ($this->authorized('role-update') === false) {
+            return redirect()->route('unauthorized');
+        }
+
         $request->validate([
             'name' => 'required|string|max:255',
         ]);
@@ -64,15 +65,7 @@ class RoleController extends CrudController
         ]);
 
         $role->save();
-        $this->postUpdateHook($request, $role);
-        sleep(1);
 
-        return redirect()->route('roles.index')->with('message', 'Role Updated Successfully');
-    }
-
-    public function postUpdateHook(Request $request, Role $role)
-    {
-        $this->authorized('role-update');
         foreach ($request->perms as $perm) {
             if ($role->hasPermissionTo($perm['name'])) {
                 if ($perm['checked'] === false) {
@@ -84,11 +77,18 @@ class RoleController extends CrudController
                 }
             }
         }
+
+        sleep(1);
+
+        return redirect()->route('roles.index')->with('message', 'Role Updated Successfully');
     }
 
     public function destroy(Role $role): RedirectResponse
     {
-        $this->authorized('role-delete');
+        if ($this->authorized('role-delete') === false) {
+            return redirect()->route('unauthorized');
+        }
+
         $role->delete();
         sleep(1);
 

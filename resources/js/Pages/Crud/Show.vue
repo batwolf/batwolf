@@ -21,9 +21,23 @@
                 </div>
             </div>
         </template>
-        <div v-for="(value, key) in columns" class="row">
-            <div class="col-2 text-end">{{ value }}:</div>
-            <div class="col-10">{{ data[value] }}</div>
+        <div class="row">
+            <div class="col-6">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="text-end">Name</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(value, key) in columns">
+                            <td class="text-end"><b>{{ value }}</b></td>
+                            <td>{{ data[value] }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </AuthenticatedLayout>
 </template>

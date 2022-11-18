@@ -9,38 +9,36 @@ use App\Http\Crud\User\ShowConfig;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
 class UserController extends CrudController
 {
-    public function create(): \Inertia\Response
+    public function create()
     {
-        $this->authorized('user-create');
-        return Inertia::render('Crud/Create', new CreateConfig());
+        return $this->respond('Crud/Create', new CreateConfig(), 'user-create');
     }
 
-    public function index(): \Inertia\Response
+    public function index()
     {
-        $this->authorized('user-read');
-        return Inertia::render('Crud/Index', new ListConfig());
+        return $this->respond('Crud/Index', new ListConfig(), 'user-read');
     }
 
-    public function show(User $user): \Inertia\Response
+    public function show(User $user)
     {
-        $this->authorized('user-read');
-        return Inertia::render('Crud/Show', new ShowConfig($user));
+        return $this->respond('Crud/Show', new ShowConfig($user), 'user-read');
     }
 
-    public function edit(User $user): \Inertia\Response
+    public function edit(User $user)
     {
-        $this->authorized('user-update');
         $user->pass = '';
-        return Inertia::render('Crud/Edit', new EditConfig($user));
+        return $this->respond('Crud/Edit', new EditConfig($user), 'user-update');
     }
 
     public function store(Request $request): RedirectResponse
     {
-        $this->authorized('user-create');
+        if ($this->authorized('user-create') === false) {
+            return redirect()->route('unauthorized');
+        }
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
@@ -59,7 +57,9 @@ class UserController extends CrudController
 
     public function update(Request $request, User $user): RedirectResponse
     {
-        $this->authorized('user-update');
+        if ($this->authorized('user-update') === false) {
+            return redirect()->route('unauthorized');
+        }
 
         $request->validate([
             'name' => 'required|string|max:255',
@@ -70,8 +70,8 @@ class UserController extends CrudController
             $user,
             $request->name,
             $request->email,
-            $request->pass,
-            $request->rls
+            $request->rls,
+            $request->pass
         );
         sleep(1);
 
@@ -80,7 +80,10 @@ class UserController extends CrudController
 
     public function destroy(User $user): RedirectResponse
     {
-        $this->authorized('user-delete');
+        if ($this->authorized('user-delete') === false) {
+            return redirect()->route('unauthorized');
+        }
+
         $user->delete();
         sleep(1);
 

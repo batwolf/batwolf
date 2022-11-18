@@ -20,7 +20,7 @@ import SidebarLink from '@/Components/SidebarLink.vue';
                 <div class="position-sticky pt-3 sidebar-sticky">
                     <ul class="nav flex-column">
                         <SidebarLink :href="route('dashboard.index')" :active="route().current('dashboard')">
-                            <vue-feather type="pie-chart" /> Dashboard
+                            <vue-feather type="clock" /> Dashboard
                         </SidebarLink>
                     </ul>
                     <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
@@ -28,7 +28,7 @@ import SidebarLink from '@/Components/SidebarLink.vue';
                     </h6>
                     <ul class="nav flex-column">
                         <SidebarLink :href="route('users.index')" :active="route().current('users.*')">
-                            <vue-feather type="users" /> Users
+                            <vue-feather type="users" fill="#000000" /> Users
                         </SidebarLink>
                     </ul>
                     <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
@@ -36,7 +36,7 @@ import SidebarLink from '@/Components/SidebarLink.vue';
                     </h6>
                     <ul class="nav flex-column">
                         <SidebarLink :href="route('roles.index')" :active="route().current('roles.*')">
-                            <vue-feather type="user-check" /> Roles
+                            <vue-feather type="user-check" fill="#000000" /> Roles
                         </SidebarLink>
                         <SidebarLink :href="route('permissions.index')" :active="route().current('permissions.*')">
                             <vue-feather type="minus-circle" /> Permissions
@@ -48,10 +48,10 @@ import SidebarLink from '@/Components/SidebarLink.vue';
                     </h6>
                     <ul class="nav flex-column">
                         <SidebarLink :href="route('logout')" :active="route().current('logout')">
-                            <vue-feather type="star" /> Profile
+                            <vue-feather type="star" fill="#000000" /> Profile
                         </SidebarLink>
                         <SidebarLink :href="route('logout')" :active="route().current('logout')">
-                            <vue-feather type="log-out" /> Logout
+                            <vue-feather type="log-out" fill="#000000" /> Logout
                         </SidebarLink>
                     </ul>
                 </div>

@@ -130,7 +130,7 @@
                 </div>
             </div>
         </template>
-        <table class="table table-striped table-borderless table-hover">
+        <table class="table table-striped table-bordered table-hover">
             <caption>Showing {{ showingStart }} to {{ showingEnd }} of {{ totalRecords }} records [sorted by {{currentSort}} {{currentSortDir}}]</caption>
             <thead class="thead-dark">
                 <tr>
@@ -142,9 +142,15 @@
                 <tr v-for="item in sortedItems">
                     <td v-for="column in columns">{{ item[column] }}</td>
                     <td>
-                        <a :href="getSlashedRoute(name, item['id'])" class="iconlink text-dark"><vue-feather type="eye" /></a>
-                        <a :href="getSlashedRoute(name, item['id'], 'edit')" class="iconlink text-dark"><vue-feather type="edit" /></a>
-                        <a href="#" class="iconlink text-danger"><vue-feather type="trash" /></a>
+                        <a :href="getSlashedRoute(name, item['id'])" class="iconlink text-dark">
+                            <vue-feather type="eye" />
+                        </a>
+                        <a :href="getSlashedRoute(name, item['id'], 'edit')" class="iconlink text-dark">
+                            <vue-feather type="edit" />
+                        </a>
+                        <a href="#" class="iconlink text-danger">
+                            <vue-feather type="trash" />
+                        </a>
                     </td>
                 </tr>
             </tbody>

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Crud\Config;
 use App\Http\Repository\UserRepository;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class CrudController extends Controller
 {
@@ -14,10 +16,19 @@ class CrudController extends Controller
         $this->userRepository = $userRepository;
     }
 
+    protected function respond(
+        string $page,
+        Config $params,
+        string $role = ''
+    ) {
+        if ($this->authorized($role)) {
+            return Inertia::render($page, $params);
+        }
+        return redirect()->route('unauthorized');
+    }
+
     protected function authorized(string $name)
     {
-        if (Auth::user()->can($name) === false) {
-            return redirect()->route('unauthorized');
-        }
+        return Auth::user()->can($name);
     }
 }

@@ -8,38 +8,36 @@ use App\Http\Crud\Permission\ListConfig;
 use App\Http\Crud\Permission\ShowConfig;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 use Spatie\Permission\Models\Permission;
 
 class PermissionController extends CrudController
 {
     public function create()
     {
-        $this->authorized('permission-create');
-        return Inertia::render('Crud/Create', new CreateConfig());
+        return $this->respond('Crud/Create', new CreateConfig(), 'permission-create');
     }
 
     public function index()
     {
-        $this->authorized('permission-read');
-        return Inertia::render('Crud/Index', new ListConfig());
+        return $this->respond('Crud/Index', new ListConfig(), 'permission-read');
     }
 
     public function show(Permission $permission)
     {
-        $this->authorized('permission-read');
-        return Inertia::render('Crud/Show', new ShowConfig($permission));
+        return $this->respond('Crud/Show', new ShowConfig($permission), 'permission-read');
     }
 
     public function edit(Permission $permission)
     {
-        $this->authorized('permission-update');
-        return Inertia::render('Crud/Edit', new EditConfig($permission));
+        return $this->respond('Crud/Edit', new EditConfig($permission), 'permission-update');
     }
 
     public function store(Request $request)
     {
-        $this->authorized('permission-create');
+        if ($this->authorized('permission-create') === false) {
+            return redirect()->route('unauthorized');
+        }
+
         $request->validate([
             'name' => 'required|string|max:255',
         ]);
@@ -52,7 +50,10 @@ class PermissionController extends CrudController
 
     public function update(Request $request, Permission $permission): RedirectResponse
     {
-        $this->authorized('permission-update');
+        if ($this->authorized('permission-update') === false) {
+            return redirect()->route('unauthorized');
+        }
+
         $request->validate([
             'name' => 'required|string|max:255',
         ]);
@@ -69,7 +70,10 @@ class PermissionController extends CrudController
 
     public function destroy(Permission $permission): RedirectResponse
     {
-        $this->authorized('permission-delete');
+        if ($this->authorized('permission-delete') === false) {
+            return redirect()->route('unauthorized');
+        }
+
         $permission->delete();
         sleep(1);
 

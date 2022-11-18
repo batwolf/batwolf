@@ -13,6 +13,7 @@ class ListConfig extends Config
         'id',
         'name',
         'email',
+        'role',
         'registered'
     ];
 
@@ -20,6 +21,12 @@ class ListConfig extends Config
     {
         return User::all()->each(function($user) {
             $user['registered'] = $user['created_at']->format('Y-m-d H:i:s');
+            $roles = $user->getRoleNames();
+            $allRoles = [];
+            foreach ($roles as $role) {
+                $allRoles[] = $role;
+            }
+            $user['role'] = implode(', ', $allRoles);
         });
     }
 }
