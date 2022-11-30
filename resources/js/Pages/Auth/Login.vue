@@ -63,6 +63,7 @@ const submit = () => {
 
 html, body {
     height: 100%;
+    background: #ffffff;
 }
 
 body {

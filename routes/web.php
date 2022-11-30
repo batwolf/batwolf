@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DesignerController;
+use App\Http\Controllers\FaceController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
@@ -36,6 +39,9 @@ Route::resource('dashboard', DashboardController::class)->only('index')->middlew
 Route::resource('users', UserController::class)->middleware('auth');
 Route::resource('roles', RoleController::class)->middleware('auth');
 Route::resource('permissions', PermissionController::class)->middleware('auth');
+Route::resource('faces', FaceController::class)->middleware('auth');
+Route::resource('designer', DesignerController::class)->middleware('auth');
+Route::resource('products', ProductController::class)->middleware('auth');
 
 //Route::get('/users', function () {
 //    return Inertia::render('Users/Index');

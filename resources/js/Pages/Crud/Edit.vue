@@ -18,6 +18,9 @@ const isTextInput = (obj) => {
 const isCheckboxInput = (obj) => {
     return obj === 'checkbox';
 }
+const isFileInput = (obj) => {
+    return obj === 'file';
+}
 const isChecked = (str) => {
     return str === 'checked';
 }
@@ -36,10 +39,10 @@ const isChecked = (str) => {
                 </div>
             </div>
         </template>
-        <form @submit.prevent="submit">
+        <form @submit.prevent="submit" class="bg-dark">
             <div class="row">
                 <div class="col-12">
-                    <div class="card">
+                    <div class="card dark">
                         <div class="card-header">
                             {{ capitalize(name) }}
                         </div>
@@ -50,18 +53,17 @@ const isChecked = (str) => {
                                     <div class="row" v-if="isTextInput(columns[key]['type'])">
                                         <div class="mb-3 col-4">
                                             <label :for="key" class="form-label">{{ columns[key]['label'] }}</label>
-                                            <input v-model="form[key]" :type="columns[key]['type']" class="form-control" :id="key" :name="key" :required="columns[key]['required']" :placeholder="columns[key]['placeholder']">
+                                            <input v-model="form[key]" :type="columns[key]['type']" class="bg-dark form-control text-light" :id="key" :name="key" :required="columns[key]['required']" :placeholder="columns[key]['placeholder']">
                                         </div>
                                     </div>
                                     <div class="row" v-if="isCheckboxInput(columns[key]['type'])">
-                                        <p>{{ columns[key]['name'] }}</p>
+                                        <p class="subtitle">{{ columns[key]['name'] }}</p>
                                         <div class="mb-3 col-3" v-for="column in data[key]">
-                                            <div class="form-check" >
+                                            <label class="switch">
                                                 <input v-model="column['checked']" :value="column.id" :checked="isChecked(column['checked'])" class="form-check-input" name="permissions[]" type="checkbox" :id="column.id">
-                                                <label class="form-check-label" :for="column.id">
-                                                    {{ column.name }}
-                                                </label>
-                                            </div>
+                                                <span class="slider"></span>
+                                            </label>
+                                            <p class="subtitle-label">{{ column.name }}</p>
                                         </div>
                                     </div>
                                 </div>

@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class DashboardController extends CrudController
 {
-    public function index()
+    public function index(): \Inertia\Response
     {
         $this->authorized('dashboard');
-        $userCount = $this->userRepository->getUserCount();
 
         return Inertia::render('Dashboard/Index', [
-            'userCount' => $userCount
+            'userCount' => $this->userRepository->getUserCount(),
         ]);
     }
 }

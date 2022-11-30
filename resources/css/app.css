@@ -1,3 +1,313 @@
-/*@tailwind base;*/
-/*@tailwind components;*/
-/*@tailwind utilities;*/
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    padding: 32px 0 0; /* Height of navbar */
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+}
+
+@media (max-width: 767.98px) {
+    .sidebar {
+        top: 5rem;
+    }
+}
+
+.sidebar-sticky {
+    height: calc(100vh - 32px);
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.nav-link {
+    font-weight: 200;
+    color: #fff !important;
+}
+
+.sidebar .nav-link.active {
+    color: #00f0ff !important;
+    background: #232323 !important;
+}
+
+.sidebar .nav-link:hover {
+    color: #00f0ff !important;
+    background: #232323 !important;
+}
+
+.sidebar-heading {
+    font-size: .75rem;
+    color: #00f0ff;
+    font-weight: 200;
+}
+
+.navbar-brand {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    /*background-color: rgba(0, 0, 0, .25);*/
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
+    color: #00f0ff;
+}
+
+.navbar .navbar-toggler {
+    top: .25rem;
+    right: 1rem;
+}
+
+.navbar {
+    /*border-bottom: 1px solid #00f0ff;*/
+    background: #262626;
+}
+
+.navbar .form-control {
+    padding: .75rem 1rem;
+}
+
+.nav-scroller {
+    position: relative;
+    z-index: 2;
+    height: 2.75rem;
+    overflow-y: hidden;
+}
+
+.nav-scroller .nav {
+    display: flex;
+    flex-wrap: nowrap;
+    padding-bottom: 1rem;
+    margin-top: -1px;
+    overflow-x: auto;
+    text-align: center;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+}
+
+.pageTitle {
+    margin-top: 20px !important;
+}
+
+.vue-feather {
+    background: transparent;
+    text-decoration: none;
+    align-items: center;
+    margin-bottom: -2px;
+    width: 16px;
+}
+
+.iconlink {
+    margin-right: 10px;
+}
+
+.iconlink i {
+    color: #00f0ff;
+    font-weight: 200;
+}
+
+th.sort {
+    cursor: pointer;
+}
+
+.sidebar-top {
+    width: 100%;
+    height: 40px;
+    border-bottom: 1px solid #fff;
+}
+
+.sidebar-top h1 {
+    text-transform: uppercase;
+    font-size: 24px;
+    text-align: left;
+    padding-left: 16px;
+    padding-top: 5px;
+    width: 90%;
+}
+
+.icons {
+    display: grid;
+    grid-gap: 0.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.icons > li {
+    background-color: #fff;
+    padding: 0.5rem 1rem;
+    transition: color 0.15s;
+}
+
+.icons > li:hover {
+    color: #0074d9;
+}
+
+.icons > li > i {
+    vertical-align: middle;
+}
+
+.icons > li > span {
+    color: #fff;
+    margin-left: 0.5rem;
+    transition: color 0.15s;
+}
+
+.icons > li:hover > span {
+    color: inherit;
+}
+
+h3 {
+    color: #fff;
+}
+
+.bg-dark {
+    background: #222 !important;
+}
+
+#sidebarMenu {
+    /*border-right: 1px solid #00f0ff;*/
+    background: #202020;
+}
+
+.card.dark, .btn-dark {
+    border: 1px solid #303030;
+    background: none;
+    border-radius: 0;
+    color: #00f0ff;
+}
+
+.card.dark {
+    border: 1px solid #212121;
+    background: #202020;
+}
+
+.card.dark .card-header {
+    border-bottom: 1px solid #303030;
+    background: #1f1f1f;
+    color: #00f0ff;
+}
+
+.card.dark .card-footer {
+    background: #1f1f1f;
+    border-top: 1px solid #303030;
+}
+
+input[type=text], input[type=password], input[type=email], input[type=file], select, textarea {
+    border:  1px solid #333333 !important;
+    color: #cccccc !important;
+    font-weight: 200;
+    border-radius: 0 !important;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+    filter: hue-rotate(140deg);
+}
+
+input[type="checkbox"] {
+    border: 1px solid #00f0ff !important;
+}
+
+.subtitle {
+    color: #fff !important;
+    font-weight: 200;
+    margin-bottom: 7px;
+}
+
+.subtitle-label {
+    color: #ccc !important;
+    font-weight: 200;
+    margin-bottom: 7px;
+}
+
+label {
+    color: #fff !important;
+    font-weight: 200;
+}
+
+.table {
+    /*border: 1px solid #00f0ff;*/
+    border-collapse: collapse;
+    /*background: #202020;*/
+}
+
+.table th {
+    background: #252525;
+    letter-spacing: 2px;
+    color: #00f0ff;
+    font-weight: 400;
+    font-size: 14px;
+    /*border-bottom: 1px solid #333;*/
+}
+
+table caption {
+    color: #888;
+    text-transform: lowercase;
+}
+
+.table tr {
+    color: #fff;
+    font-weight: 200;
+    background: #212121;
+    border-bottom: 1px solid #303030;
+    /*background: #202020;*/
+}
+
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 30px;
+    height: 17px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #444444;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 13px;
+    width: 13px;
+    left: 2px;
+    bottom: 2px;
+    background-color: #000000;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #00f0ff;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #00f0ff;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(13px);
+    -ms-transform: translateX(13px);
+    transform: translateX(13px);
+}
+
+.slider.round {
+    border-radius: 17px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}

@@ -36,27 +36,15 @@
     };
 
     const toggleNextButton = () => {
-        if (!nextPageIsVisible()) {
-            nextButtonIsVisible.value = false;
-        } else {
-            nextButtonIsVisible.value = true;
-        }
+        nextButtonIsVisible.value = nextPageIsVisible();
     }
 
     const togglePrevButton = () => {
-        if (!previousPageIsVisible()) {
-            prevButtonIsVisible.value = false;
-        } else {
-            prevButtonIsVisible.value = true;
-        }
+        prevButtonIsVisible.value = previousPageIsVisible();
     }
 
     const toggleAnyButton = () => {
-        if (!anyPageIsVisible()) {
-            anyButtonIsVisible.value = false;
-        } else {
-            anyButtonIsVisible.value = true;
-        }
+        anyButtonIsVisible.value = anyPageIsVisible();
     }
 
     const nextPage = () => {
@@ -130,7 +118,7 @@
                 </div>
             </div>
         </template>
-        <table class="table table-striped table-bordered table-hover">
+        <table v-if="data.length > 0" class="table table-borderless">
             <caption>Showing {{ showingStart }} to {{ showingEnd }} of {{ totalRecords }} records [sorted by {{currentSort}} {{currentSortDir}}]</caption>
             <thead class="thead-dark">
                 <tr>
@@ -142,19 +130,22 @@
                 <tr v-for="item in sortedItems">
                     <td v-for="column in columns">{{ item[column] }}</td>
                     <td>
-                        <a :href="getSlashedRoute(name, item['id'])" class="iconlink text-dark">
+                        <a :href="getSlashedRoute(name, item['id'])" class="iconlink text-light">
                             <vue-feather type="eye" />
                         </a>
-                        <a :href="getSlashedRoute(name, item['id'], 'edit')" class="iconlink text-dark">
+                        <a :href="getSlashedRoute(name, item['id'], 'edit')" class="iconlink text-light">
                             <vue-feather type="edit" />
                         </a>
-                        <a href="#" class="iconlink text-danger">
+                        <a href="#" class="iconlink text-light">
                             <vue-feather type="trash" />
                         </a>
                     </td>
                 </tr>
             </tbody>
         </table>
+        <div v-else>
+            <h5>No data found</h5>
+        </div>
         <div class="row" v-if="anyButtonIsVisible">
             <div class="col-1">
                 <button :disabled="prevButtonIsVisible" class="btn btn-secondary" @click="prevPage">&lt;&lt;</button>

@@ -23,7 +23,7 @@
         </template>
         <div class="row">
             <div class="col-6">
-                <table class="table table-striped table-bordered">
+                <table class="table">
                     <thead>
                         <tr>
                             <th class="text-end">Name</th>

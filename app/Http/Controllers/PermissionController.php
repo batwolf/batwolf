@@ -8,31 +8,32 @@ use App\Http\Crud\Permission\ListConfig;
 use App\Http\Crud\Permission\ShowConfig;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Inertia\Response;
 use Spatie\Permission\Models\Permission;
 
 class PermissionController extends CrudController
 {
-    public function create()
+    public function create(): Response|RedirectResponse
     {
         return $this->respond('Crud/Create', new CreateConfig(), 'permission-create');
     }
 
-    public function index()
+    public function index(): Response|RedirectResponse
     {
         return $this->respond('Crud/Index', new ListConfig(), 'permission-read');
     }
 
-    public function show(Permission $permission)
+    public function show(Permission $permission): Response|RedirectResponse
     {
         return $this->respond('Crud/Show', new ShowConfig($permission), 'permission-read');
     }
 
-    public function edit(Permission $permission)
+    public function edit(Permission $permission): Response|RedirectResponse
     {
         return $this->respond('Crud/Edit', new EditConfig($permission), 'permission-update');
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         if ($this->authorized('permission-create') === false) {
             return redirect()->route('unauthorized');

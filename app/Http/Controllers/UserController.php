@@ -12,12 +12,12 @@ use Illuminate\Http\Request;
 
 class UserController extends CrudController
 {
-    public function create()
+    public function create(): \Inertia\Response|RedirectResponse
     {
         return $this->respond('Crud/Create', new CreateConfig(), 'user-create');
     }
 
-    public function index()
+    public function index(): \Inertia\Response|RedirectResponse
     {
         return $this->respond('Crud/Index', new ListConfig(), 'user-read');
     }
@@ -27,7 +27,7 @@ class UserController extends CrudController
         return $this->respond('Crud/Show', new ShowConfig($user), 'user-read');
     }
 
-    public function edit(User $user)
+    public function edit(User $user): \Inertia\Response|RedirectResponse
     {
         $user->pass = '';
         return $this->respond('Crud/Edit', new EditConfig($user), 'user-update');

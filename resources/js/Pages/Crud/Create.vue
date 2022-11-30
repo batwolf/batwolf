@@ -15,8 +15,14 @@ const submit = () => {
 const isTextInput = (obj) => {
     return obj === 'text' || obj === 'email' || obj === 'password';
 }
+const isTextAreaInput = (obj) => {
+    return obj === 'textarea';
+}
 const isCheckboxInput = (obj) => {
     return obj === 'checkbox';
+}
+const isFileInput = (obj) => {
+    return obj === 'file';
 }
 const isChecked = (str) => {
     return str === 'checked';
@@ -36,10 +42,10 @@ const isChecked = (str) => {
                 </div>
             </div>
         </template>
-        <form @submit.prevent="submit">
+        <form @submit.prevent="submit" class="bg-dark">
             <div class="row">
                 <div class="col-12">
-                    <div class="card">
+                    <div class="card dark">
                         <div class="card-header">
                             {{ capitalize(name) }}
                         </div>
@@ -49,7 +55,7 @@ const isChecked = (str) => {
                                     <div class="row" v-if="isTextInput(columns[key]['type'])">
                                         <div class="mb-3 col-4">
                                             <label :for="key" class="form-label">{{ columns[key]['label'] }}</label>
-                                            <input v-model="form[key]" :type="columns[key]['type']" class="form-control" :id="key" :name="key" :required="columns[key]['required']" :placeholder="columns[key]['placeholder']">
+                                            <input v-model="form[key]" :type="columns[key]['type']" class="bg-dark form-control text-light" :id="key" :name="key" :required="columns[key]['required']" :placeholder="columns[key]['placeholder']">
                                         </div>
                                     </div>
                                     <div class="row" v-if="isCheckboxInput(columns[key]['type'])">
@@ -61,6 +67,18 @@ const isChecked = (str) => {
                                                     {{ column.name }}
                                                 </label>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" v-if="isTextAreaInput(columns[key]['type'])">
+                                        <div class="mb-3 col-4">
+                                            <label :for="key" class="form-label">{{ columns[key]['label'] }}</label>
+                                            <textarea rows="5" v-model="form[key]" class="bg-dark form-control text-light" :id="key" :name="key" :required="columns[key]['required']" :placeholder="columns[key]['placeholder']"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row" v-if="isFileInput(columns[key]['type'])">
+                                        <div class="mb-3 col-4">
+                                            <label :for="key" class="form-label">{{ columns[key]['label'] }}</label>
+                                            <input class="bg-dark form-control text-light" type="file" :id="key" :name="key" :required="columns[key]['required']" :placeholder="columns[key]['placeholder']">
                                         </div>
                                     </div>
                                 </div>

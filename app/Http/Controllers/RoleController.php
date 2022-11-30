@@ -12,12 +12,12 @@ use Spatie\Permission\Models\Role;
 
 class RoleController extends CrudController
 {
-    public function create()
+    public function create(): \Inertia\Response|RedirectResponse
     {
         return $this->respond('Crud/Create', new CreateConfig(), 'role-create');
     }
 
-    public function index()
+    public function index(): \Inertia\Response|RedirectResponse
     {
         return $this->respond('Crud/Index', new ListConfig(), 'role-read');
     }
@@ -27,7 +27,7 @@ class RoleController extends CrudController
         return $this->respond('Crud/Show', new ShowConfig($role), 'role-read');
     }
 
-    public function edit(Role $role)
+    public function edit(Role $role): \Inertia\Response|RedirectResponse
     {
         return $this->respond('Crud/Edit', new EditConfig($role), 'role-update');
     }

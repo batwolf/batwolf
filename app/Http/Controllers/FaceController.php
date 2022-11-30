@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Crud\Face\CreateConfig;
+use App\Http\Crud\Face\ListConfig;
 use App\Models\Face;
 use Illuminate\Http\Request;
 
-class FaceController extends Controller
+class FaceController extends CrudController
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +16,7 @@ class FaceController extends Controller
      */
     public function index()
     {
-        //
+        return $this->respond('Crud/Index', new ListConfig(), 'face-read');
     }
 
     /**
@@ -24,7 +26,7 @@ class FaceController extends Controller
      */
     public function create()
     {
-        //
+        return $this->respond('Crud/Create', new CreateConfig(), 'face-create');
     }
 
     /**
